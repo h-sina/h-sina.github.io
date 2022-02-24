@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sina-front-learn.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章内容是从vue3项目构建到实现一个简单的布局，用到组件化原理和路由">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3项目搭建至布局">
+<meta property="og:url" content="http://sina-front-learn.com/2022/02/04/vue/">
+<meta property="og:site_name" content="sina&#39;s blog">
+<meta property="og:description" content="这篇文章内容是从vue3项目构建到实现一个简单的布局，用到组件化原理和路由">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-02-04T08:15:59.000Z">
+<meta property="article:modified_time" content="2022-02-24T12:12:17.682Z">
+<meta property="article:author" content="H-sina">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://sina-front-learn.com/2022/02/04/vue/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue3项目搭建至布局 | sina's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="sina's blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">sina's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录在开发路上的点点滴滴..</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sina-front-learn.com/2022/02/04/vue/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="H-sina">
+      <meta itemprop="description" content="我看见古罗马的黄昏伴随着钟声悄然而落 爱肆意生长 横行无忌 恍惚间 我好像又看见了那个少年 风不听吹 夜莺飞遍世界无数角落 只可惜夜莺不懂 心事也葬送在风里">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sina's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue3项目搭建至布局
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-04 16:15:59" itemprop="dateCreated datePublished" datetime="2022-02-04T16:15:59+08:00">2022-02-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-02-24 20:12:17" itemprop="dateModified" datetime="2022-02-24T20:12:17+08:00">2022-02-24</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>23k字</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>21 分钟</span>
+            </span>
+
+	
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>这篇文章内容是从vue3项目构建到实现一个简单的布局，用到组件化原理和路由</p>
+</blockquote>
+<span id="more"></span>
+
+<p>vue3创建项目：</p>
+<ul>
+<li><strong>vue create 项目名称</strong></li>
+<li><strong>Manually select features 选择手动选择功能</strong></li>
+<li><strong>选择Vue version,babel,TypeScript,Router,Vuex,</strong></li>
+<li><strong>选择3.x</strong></li>
+<li><strong>下面一路回车等待项目创建完成</strong><br>创建项目成功后vscode打开</li>
+</ul>
+<p>组件化布局（.vue编写-&gt;使用页面导入-&gt;注册-&gt;使用）</p>
+<ul>
+<li><strong>在components文件夹下创建Header.vue,Side.vue,Footer.vue文件，内容自定</strong></li>
+<li><strong>在App.vue里import导入组件，在components里注册组件，在template里使用</strong></li>
+</ul>
+<p>导入路由（.vue编写-&gt;router&#x2F;index.ts导入-&gt;使用）</p>
+<ul>
+<li><strong>在views文件夹下创建需要跳转的页面</strong></li>
+<li><strong>如何在index.ts里添加刚刚创建的页面仿照About</strong></li>
+<li><strong>在使用的页面Header.vue里：<br><code>&lt;router-link to=&quot;/&quot; class=&quot;a&quot;&gt;首页&lt;/router-link&gt;</code>，<br><code>&lt;router-link to=&quot;/articles&quot; class=&quot;a&quot;&gt;文章&lt;/router-link&gt;</code></strong></li>
+</ul>
+<p>Header.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;el-container&gt;</span><br><span class="line">    &lt;div style=&quot;width: 200px;&quot;&gt;</span><br><span class="line">      &lt;img src=&quot;../assets/logo.png&quot; alt=&quot;找不到照片&quot; style=&quot;width:50px&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div style=&quot;flex: 1; text-align: center&quot;&gt;</span><br><span class="line">      &lt;el-menu</span><br><span class="line">        :default-active=&quot;activeIndex&quot;</span><br><span class="line">        class=&quot;el-menu-demo&quot;</span><br><span class="line">        mode=&quot;horizontal&quot;</span><br><span class="line">        @select=&quot;handleSelect&quot;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;1&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/&quot; class=&quot;a&quot;&gt;首页&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;2&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/articles&quot; class=&quot;a&quot;&gt;文章&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;3&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/archive&quot; class=&quot;a&quot;&gt;归档&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;4&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/project&quot; class=&quot;a&quot;&gt;项目&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;5&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/timeline&quot; class=&quot;a&quot;&gt;历程&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;6&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/message&quot; class=&quot;a&quot;&gt;留言&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">        &lt;el-menu-item index=&quot;7&quot;&gt;</span><br><span class="line">          &lt;router-link to=&quot;/about&quot; class=&quot;a&quot;&gt;关于&lt;/router-link&gt;</span><br><span class="line">        &lt;/el-menu-item&gt;</span><br><span class="line">      &lt;/el-menu&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div style=&quot;width:200px;&quot;&gt;</span><br><span class="line">      &lt;el-button type=&quot;primary&quot;&gt;登录&lt;/el-button&gt;</span><br><span class="line">      &lt;el-button type=&quot;danger&quot;&gt;注册&lt;/el-button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/el-container&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup&gt;</span><br><span class="line">import &#123; ref &#125; from &quot;vue&quot;;</span><br><span class="line"></span><br><span class="line">const activeIndex = ref(&quot;1&quot;);</span><br><span class="line">const activeIndex2 = ref(&quot;1&quot;);</span><br><span class="line">const handleSelect = (key: string, keyPath: string[]) =&gt; &#123;</span><br><span class="line">  console.log(key, keyPath);</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.a &#123;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">  display: block;</span><br><span class="line">  padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>Aside.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div style=&quot;width: 300px;&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;card&quot; style=&quot;padding-top: 50px;&quot;&gt;</span><br><span class="line">      &lt;img</span><br><span class="line">        src=&quot;../assets/logo.png&quot;</span><br><span class="line">        alt=&quot;找不到照片&quot;</span><br><span class="line">        style=&quot;width: 80px; border-radius: 50px; border: 1px solid #eee;&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">      &lt;h2&gt;HuangSina&lt;/h2&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;tags&quot;&gt;</span><br><span class="line">      &lt;div class=&quot;title&quot;&gt;标签云&lt;/div&gt;</span><br><span class="line">      &lt;!-- &lt;router-link</span><br><span class="line">          v-for=&quot;item in state.list&quot;</span><br><span class="line">          class=&quot;item&quot;</span><br><span class="line">          :key=&quot;item._id&quot;</span><br><span class="line">          :to=&quot;`/articles?tag_id=$&#123;item._id&#125;&amp;tag_name=$&#123;item.name&#125;&amp;category_id=`&quot;</span><br><span class="line">        &gt;</span><br><span class="line">          &lt;span :key=&quot;item._id&quot;&gt;&#123;&#123;item.name&#125;&#125;&lt;/span&gt;</span><br><span class="line">      &lt;/router-link&gt;--&gt;</span><br><span class="line">      &lt;el-tag class=&quot;item&quot; type=&quot;info&quot;&gt;Tag 3&lt;/el-tag&gt;</span><br><span class="line">      &lt;el-tag class=&quot;item&quot; type=&quot;info&quot;&gt;Tag 3&lt;/el-tag&gt;</span><br><span class="line">      &lt;el-tag class=&quot;item&quot; type=&quot;info&quot;&gt;Tag 3&lt;/el-tag&gt;</span><br><span class="line">      &lt;el-tag class=&quot;item&quot; type=&quot;info&quot;&gt;Tag 3&lt;/el-tag&gt;</span><br><span class="line">      &lt;el-tag class=&quot;item&quot; type=&quot;info&quot;&gt;Tag 3&lt;/el-tag&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;card&quot;&gt;</span><br><span class="line">      &lt;h3&gt;本站公众号&lt;/h3&gt;</span><br><span class="line">      &lt;img src=&quot;../assets/logo.png&quot; alt=&quot;找不到照片&quot; style=&quot;width: 100px;&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot; setup&gt;</span><br><span class="line">import &#123;</span><br><span class="line">  Location,</span><br><span class="line">  Document,</span><br><span class="line">  Menu as IconMenu,</span><br><span class="line">  Setting</span><br><span class="line">&#125; from &quot;@element-plus/icons-vue&quot;;</span><br><span class="line">const handleOpen = (key: string, keyPath: string[]) =&gt; &#123;</span><br><span class="line">  console.log(key, keyPath);</span><br><span class="line">&#125;;</span><br><span class="line">const handleClose = (key: string, keyPath: string[]) =&gt; &#123;</span><br><span class="line">  console.log(key, keyPath);</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.card &#123;</span><br><span class="line">  border-bottom: 1px solid #eee;</span><br><span class="line">  padding: 5px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  box-sizing: border-box;</span><br><span class="line">&#125;</span><br><span class="line">.tags &#123;</span><br><span class="line">  min-height: 200px;</span><br><span class="line">  padding: 5px 0 20px 0;</span><br><span class="line">  margin-bottom: 10px;</span><br><span class="line">  border-bottom: 1px solid #eee;</span><br><span class="line">&#125;</span><br><span class="line">.tags .title &#123;</span><br><span class="line">  font-size: 14px;</span><br><span class="line">  color: #969696;</span><br><span class="line">&#125;</span><br><span class="line">.tags .item &#123;</span><br><span class="line">  display: inline-block;</span><br><span class="line">  cursor: pointer;</span><br><span class="line">  padding: 5px 10px;</span><br><span class="line">  border-radius: 5px;</span><br><span class="line">  background-color: #eee;</span><br><span class="line">  color: #333;</span><br><span class="line">  margin: 10px 10px 0 0;</span><br><span class="line">  text-decoration: none;</span><br><span class="line">&#125;</span><br><span class="line">.tags .item :hover &#123;</span><br><span class="line">  color: #409eff;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>Footer.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;footer&quot;&gt;</span><br><span class="line">    &lt;div&gt;前端修炼 ©2022 Created by HuangSina&lt;/div&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line">&lt;script lang=&quot;ts&quot;&gt;</span><br><span class="line">import &#123; defineComponent &#125; from &quot;vue&quot;;</span><br><span class="line"></span><br><span class="line">export default defineComponent(&#123;</span><br><span class="line">  name: &quot;Footer&quot;,</span><br><span class="line">&#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">.footer &#123;</span><br><span class="line">  text-align: center;</span><br><span class="line">  padding: 20px;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>App.vue</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div id=&quot;nav&quot;&gt;</span><br><span class="line">    &lt;!-- &lt;router-link to=&quot;/&quot;&gt;Home&lt;/router-link&gt; |</span><br><span class="line">    &lt;router-link to=&quot;/about&quot;&gt;About&lt;/router-link&gt; --&gt;</span><br><span class="line">    &lt;!-- 头部 --&gt;</span><br><span class="line">    &lt;Header&gt;&lt;/Header&gt;</span><br><span class="line">    &lt;!-- 中间 --&gt;</span><br><span class="line">    &lt;el-container&gt;</span><br><span class="line">      &lt;!-- 内容 --&gt;</span><br><span class="line">      &lt;el-main&gt;</span><br><span class="line">        &lt;router-view style=&quot;felx: 1&quot;&gt;&lt;/router-view&gt;</span><br><span class="line">      &lt;/el-main&gt;</span><br><span class="line">      &lt;!-- 侧边栏 --&gt;</span><br><span class="line">      &lt;Aside&gt;&lt;/Aside&gt;</span><br><span class="line">    &lt;/el-container&gt;</span><br><span class="line">    &lt;!-- 尾部 --&gt;</span><br><span class="line">    &lt;Footer&gt;&lt;/Footer&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Header from &quot;./components/Header&quot;</span><br><span class="line">import Aside from &quot;./components/Aside&quot;</span><br><span class="line">import Footer from &quot;./components/Footer&quot;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &#x27;App&#x27;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    Header,</span><br><span class="line">    Aside,</span><br><span class="line">    Footer</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">#app &#123;</span><br><span class="line">  font-family: Avenir, Helvetica, Arial, sans-serif;</span><br><span class="line">  -webkit-font-smoothing: antialiased;</span><br><span class="line">  -moz-osx-font-smoothing: grayscale;</span><br><span class="line">  text-align: center;</span><br><span class="line">  color: #2c3e50;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
+<p>router&#x2F;index.ts</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import &#123;</span><br><span class="line">  createRouter,</span><br><span class="line">  createWebHistory,</span><br><span class="line">  RouteRecordRaw,</span><br><span class="line">&#125; from &#x27;vue-router&#x27;;</span><br><span class="line"></span><br><span class="line">import Home from &#x27;../views/Home.vue&#x27;;</span><br><span class="line"></span><br><span class="line">const routes: Array&lt;RouteRecordRaw&gt; = [</span><br><span class="line">  &#123;</span><br><span class="line">    path: &#x27;/&#x27;,</span><br><span class="line">    name: &#x27;Home&#x27;,</span><br><span class="line">    component: Home</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: &#x27;/about&#x27;,</span><br><span class="line">    name: &#x27;About&#x27;,</span><br><span class="line">    // route level code-splitting</span><br><span class="line">    // this generates a separate chunk (about.[hash].js) for this route</span><br><span class="line">    // which is lazy-loaded when the route is visited.</span><br><span class="line">    component: () =&gt; import(/* webpackChunkName: &quot;about&quot; */ &#x27;../views/About.vue&#x27;)</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    path: &#x27;/articles&#x27;,</span><br><span class="line">    name: &#x27;articles&#x27;,</span><br><span class="line">    component: () =&gt; import(/* webpackChunkName: &quot;about&quot; */ &#x27;../views/Articles.vue&#x27;)</span><br><span class="line">  &#125;</span><br><span class="line">export default router</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>H-sina
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://sina-front-learn.com/2022/02/04/vue/" title="Vue3项目搭建至布局">http://sina-front-learn.com/2022/02/04/vue/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/h-sina">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+
+            <span class="label">GitHub</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://blog.csdn.net/qq_55054495">
+            <span class="icon">
+              <i class="fab fa-stack-overflow"></i>
+            </span>
+
+            <span class="label">CSDN</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fab fa-ravelry"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/02/02/demo/" rel="prev" title="git">
+      <i class="fa fa-chevron-left"></i> git
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="H-sina"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">H-sina</p>
+  <div class="site-description" itemprop="description">我看见古罗马的黄昏伴随着钟声悄然而落 爱肆意生长 横行无忌 恍惚间 我好像又看见了那个少年 风不听吹 夜莺飞遍世界无数角落 只可惜夜莺不懂 心事也葬送在风里</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/h-sina" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;h-sina" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/qq_55054495" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_55054495" rel="noopener" target="_blank"><i class="fab fa-stack-overflow fa-fw"></i>CSDN</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=34383253&auto=1&height=66"></iframe>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">H-sina</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">9k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">8 分钟</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
